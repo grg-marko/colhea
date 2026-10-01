@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colhea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout: single-screen vertical hero, dial graphic slightly left of center,
+     wordmark + copy right-weighted, footer split left/right. Dark-first —
+     the dial's heat/cool glow is the point, and it reads best on near-black. */
+  :root{
+    --bg:#0a0d12;
+    --bg-elev:#11161d;
+    --fg:#eef1f4;
+    --fg-dim:#8d98a6;
+    --line:#1f2630;
+    --heat:#ff7a45;
+    --cool:#3fd0e8;
+    --accent:#3fd0e8;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#f5f3ef;
+      --bg-elev:#ffffff;
+      --fg:#15181d;
+      --fg-dim:#5c6673;
+      --line:#dedad2;
+      --heat:#e8632b;
+      --cool:#0e95ad;
+      --accent:#0e95ad;
+      color-scheme: light;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f3ef;
+    --bg-elev:#ffffff;
+    --fg:#15181d;
+    --fg-dim:#5c6673;
+    --line:#dedad2;
+    --heat:#e8632b;
+    --cool:#0e95ad;
+    --accent:#0e95ad;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0d12;
+    --bg-elev:#11161d;
+    --fg:#eef1f4;
+    --fg-dim:#8d98a6;
+    --line:#1f2630;
+    --heat:#ff7a45;
+    --cool:#3fd0e8;
+    --accent:#3fd0e8;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Sora',system-ui,-apple-system,Segoe UI,sans-serif;
+    min-height:100%;
+  }
+
+  .page{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding:0 20px;
+  }
+
+  main{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding-block:48px;
+  }
+
+  .hero{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(28px,6vw,64px);
+    max-width:920px;
+  }
+
+  .dial-wrap{
+    position:relative;
+    width:min(260px,70vw);
+    flex:0 0 auto;
+  }
+  .dial-wrap svg{display:block;width:100%;height:auto;}
+  .dial-glow{
+    position:absolute;
+    inset:-20%;
+    background:radial-gradient(circle at 38% 42%, color-mix(in srgb, var(--cool) 28%, transparent), transparent 60%),
+               radial-gradient(circle at 62% 58%, color-mix(in srgb, var(--heat) 24%, transparent), transparent 60%);
+    filter:blur(18px);
+    z-index:0;
+    animation:breathe 6s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .dial-glow{animation:none;} }
+  @keyframes breathe{
+    0%,100%{opacity:.7; transform:scale(1);}
+    50%{opacity:1; transform:scale(1.04);}
+  }
+  .dial-wrap svg{position:relative; z-index:1;}
+
+  .readout{
+    font-family:'JetBrains Mono',monospace;
+    font-variant-numeric:tabular-nums;
+    font-weight:600;
+    fill:var(--fg);
+  }
+  .readout-deg{font-size:34px;}
+  .readout-label{
+    font-family:'Sora',sans-serif;
+    font-size:9px;
+    font-weight:600;
+    letter-spacing:.12em;
+    fill:var(--fg-dim);
+  }
+  .tick{stroke:var(--line); stroke-width:2;}
+
+  .copy{
+    flex:1 1 320px;
+    min-width:0;
+    max-width:420px;
+  }
+  .eyebrow{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--fg-dim);
+    margin:0 0 14px;
+  }
+  .wordmark{
+    font-family:'Unbounded',sans-serif;
+    font-weight:800;
+    font-size:clamp(40px,8vw,64px);
+    line-height:1;
+    margin:0 0 18px;
+    letter-spacing:-.01em;
+    text-wrap:balance;
+  }
+  /* each letter its own shade: C-o-l cold blue warming up, h-e-a warm climbing to peak red */
+  .wordmark .lC{color:#2454d6;}
+  .wordmark .lO{color:#3a82d9;}
+  .wordmark .lL{color:#5fb3c9;}
+  .wordmark .lH{color:#f0945a;}
+  .wordmark .lE{color:#f2602e;}
+  .wordmark .lA{color:#ff1f1f;}
+  .tagline{
+    font-size:clamp(17px,2.4vw,20px);
+    font-weight:500;
+    line-height:1.45;
+    margin:0 0 14px;
+    text-wrap:balance;
+  }
+  .desc{
+    font-size:15px;
+    line-height:1.65;
+    color:var(--fg-dim);
+    margin:0 0 26px;
+    max-width:40ch;
+  }
+  .status{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:var(--bg-elev);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--fg);
+  }
+  .status-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    padding-block:20px;
+    border-top:1px solid var(--line);
+    font-size:12px;
+    color:var(--fg-dim);
+  }
+  footer .domain{
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:.02em;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <main>
+    <div class="hero">
+      <div class="dial-wrap" aria-hidden="true">
+        <div class="dial-glow"></div>
+        <svg viewBox="0 0 220 220">
+          <defs>
+            <linearGradient id="gradHeat" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#f0945a"/>
+              <stop offset="1" stop-color="#ff1f1f"/>
+            </linearGradient>
+            <linearGradient id="gradCool" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#5fb3c9"/>
+              <stop offset="1" stop-color="#2454d6"/>
+            </linearGradient>
+          </defs>
+
+          <!-- faint tick scale, like a thermostat dial -->
+          <g class="tick">
+            <line x1="110" y1="10" x2="110" y2="20"/>
+            <line x1="110" y1="200" x2="110" y2="210"/>
+            <line x1="10" y1="110" x2="20" y2="110"/>
+            <line x1="200" y1="110" x2="210" y2="110"/>
+          </g>
+
+          <!-- base ring -->
+          <circle cx="110" cy="110" r="90" fill="none" stroke="var(--line)" stroke-width="10"/>
+
+          <!-- heat half: 12 -> 6 o'clock via 3 o'clock -->
+          <circle cx="110" cy="110" r="90" fill="none" stroke="url(#gradHeat)"
+                  stroke-width="10" stroke-linecap="round"
+                  stroke-dasharray="282.74 282.74" stroke-dashoffset="0"
+                  transform="rotate(-90 110 110)"/>
+
+          <!-- cool half: 6 -> 12 o'clock via 9 o'clock -->
+          <circle cx="110" cy="110" r="90" fill="none" stroke="url(#gradCool)"
+                  stroke-width="10" stroke-linecap="round"
+                  stroke-dasharray="282.74 282.74" stroke-dashoffset="282.74"
+                  transform="rotate(-90 110 110)"/>
+
+          <text x="110" y="104" text-anchor="middle" class="readout readout-deg">21°</text>
+          <text x="110" y="128" text-anchor="middle" class="readout readout-label">SOBNA TEMPERATURA</text>
+        </svg>
+      </div>
+
+      <div class="copy">
+        <p class="eyebrow">Pametno grejanje i hlađenje</p>
+        <h1 class="wordmark"><span class="lC">C</span><span class="lO">o</span><span class="lL">l</span><span class="lH">h</span><span class="lE">e</span><span class="lA">a</span></h1>
+        <p class="tagline">Termostat koji nauči kad vam je toplo, a kad hladno.</p>
+        <p class="desc">Povezuje se na kućni WiFi, prati navike u domu i sam podešava raspored grejanja i hlađenja — bez tabela i podešavanja koje niko ne ažurira.</p>
+        <span class="status"><span class="status-dot"></span>Uskoro</span>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2026 Colhea</span>
+    <span class="domain">colhea.com</span>
+  </footer>
+</div>
+</body>
+</html>
