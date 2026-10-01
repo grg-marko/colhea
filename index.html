@@ -22,30 +22,8 @@
     --accent:#3fd0e8;
     color-scheme: dark;
   }
-  @media (prefers-color-scheme: light){
-    :root:not([data-theme="dark"]){
-      --bg:#f5f3ef;
-      --bg-elev:#ffffff;
-      --fg:#15181d;
-      --fg-dim:#5c6673;
-      --line:#dedad2;
-      --heat:#e8632b;
-      --cool:#0e95ad;
-      --accent:#0e95ad;
-      color-scheme: light;
-    }
-  }
-  :root[data-theme="light"]{
-    --bg:#f5f3ef;
-    --bg-elev:#ffffff;
-    --fg:#15181d;
-    --fg-dim:#5c6673;
-    --line:#dedad2;
-    --heat:#e8632b;
-    --cool:#0e95ad;
-    --accent:#0e95ad;
-    color-scheme: light;
-  }
+  /* Colhea commits to one look — dark, so the heat/cool glow actually glows.
+     No light variant: a light background flattens the whole point of the dial. */
   :root[data-theme="dark"]{
     --bg:#0a0d12;
     --bg-elev:#11161d;
@@ -208,6 +186,7 @@
     letter-spacing:.02em;
   }
 </style>
+
 </head>
 <body>
 <div class="page">
@@ -270,5 +249,4 @@
     <span class="domain">colhea.com</span>
   </footer>
 </div>
-</body>
-</html>
+</body></html>
