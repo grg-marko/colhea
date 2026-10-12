@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Colhea · Preorder</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  /* Preorder page: hidden until suppliers are confirmed (noindex, not linked
+     from the home page). Same dark system as the home page. Prices stay
+     "uskoro" until the first order is placed; sign-ups go to a Google Form. */
+  :root{
+    --bg:#0a0d12;
+    --bg-elev:#11161d;
+    --card:#12181f;
+    --fg:#eef1f4;
+    --fg-dim:#8d98a6;
+    --fg-faint:#5c6673;
+    --line:#1f2630;
+    --heat:#ff7a45;
+    --cool:#3fd0e8;
+    --accent:#3fd0e8;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Sora',system-ui,-apple-system,Segoe UI,sans-serif;
+  }
+  a{color:inherit;}
+
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+
+  nav{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding-block:22px;border-bottom:1px solid var(--line);
+  }
+  .nav-mark{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .nav-mark img{width:28px;height:28px;display:block;}
+  .nav-word{font-family:'Unbounded',sans-serif;font-weight:800;font-size:17px;}
+  nav .tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg-faint);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;letter-spacing:.04em;
+  }
+
+  .hero{
+    display:flex;flex-wrap:wrap;align-items:center;gap:clamp(28px,6vw,56px);
+    padding-block:clamp(40px,7vw,64px);
+  }
+  .dial-wrap{position:relative;width:min(200px,60vw);flex:0 0 auto;}
+  .dial-wrap svg{display:block;width:100%;height:auto;position:relative;z-index:1;}
+  .dial-glow{
+    position:absolute;inset:-25%;
+    background:radial-gradient(circle at 38% 42%, color-mix(in srgb, var(--cool) 26%, transparent), transparent 60%),
+               radial-gradient(circle at 62% 58%, color-mix(in srgb, var(--heat) 22%, transparent), transparent 60%);
+    filter:blur(20px);z-index:0;
+  }
+  .hero-copy{flex:1 1 360px;min-width:0;max-width:520px;}
+  .eyebrow{
+    font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--fg-dim);margin:0 0 14px;
+  }
+  h1{
+    font-family:'Unbounded',sans-serif;font-weight:800;
+    font-size:clamp(32px,6vw,48px);line-height:1.08;margin:0 0 16px;text-wrap:balance;
+  }
+  .hero-copy p{font-size:16px;line-height:1.65;color:var(--fg-dim);margin:0 0 22px;max-width:46ch;}
+  .btn{
+    display:inline-block;text-decoration:none;
+    font-family:'Sora',sans-serif;font-weight:600;font-size:14px;
+    padding:13px 22px;border-radius:10px;border:none;cursor:pointer;
+    background:linear-gradient(90deg,#2454d6,#ff1f1f);color:#fff;
+  }
+  .hint{font-size:12.5px;color:var(--fg-faint);margin-top:12px;}
+
+  section{padding-block:clamp(36px,6vw,56px);border-top:1px solid var(--line);}
+  .section-head{max-width:60ch;margin-bottom:28px;}
+  .section-head .eyebrow{margin-bottom:10px;}
+  .section-head h2{
+    font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);
+    margin:0 0 10px;text-wrap:balance;
+  }
+  .section-head p{font-size:14.5px;line-height:1.6;color:var(--fg-dim);margin:0;}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+  @media (max-width:760px){.grid3{grid-template-columns:1fr;}}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 20px;display:flex;flex-direction:column;gap:10px;min-width:0;
+  }
+  .num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--fg-faint);margin:0;}
+  .card h3{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;margin:0;}
+  .card p{font-size:13.5px;line-height:1.6;color:var(--fg-dim);margin:0;}
+  .price{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--fg-faint);
+    border-top:1px solid var(--line);padding-top:12px;margin-top:auto !important;
+  }
+
+  .signup{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:clamp(24px,4vw,36px);max-width:560px;
+  }
+  .signup p{font-size:14.5px;line-height:1.6;color:var(--fg-dim);margin:0 0 20px;}
+  .signup .note{font-size:12.5px;color:var(--fg-faint);margin:16px 0 0;}
+
+  footer{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+    padding-block:24px;border-top:1px solid var(--line);font-size:12px;color:var(--fg-dim);
+  }
+  footer .domain{font-family:'JetBrains Mono',monospace;letter-spacing:.02em;}
+  footer a{text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="nav-mark" href="/">
+      <img src="../assets/colhea-mark.svg" alt="">
+      <span class="nav-word">Colhea</span>
+    </a>
+    <span class="tag">PREORDER</span>
+  </nav>
+
+  <div class="hero">
+    <div class="dial-wrap" aria-hidden="true">
+      <div class="dial-glow"></div>
+      <svg viewBox="0 0 220 220">
+        <defs>
+          <linearGradient id="heroH" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f0945a"/><stop offset="1" stop-color="#ff1f1f"/></linearGradient>
+          <linearGradient id="heroC" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fb3c9"/><stop offset="1" stop-color="#2454d6"/></linearGradient>
+        </defs>
+        <circle cx="110" cy="110" r="90" fill="none" stroke="var(--line)" stroke-width="10"/>
+        <circle cx="110" cy="110" r="90" fill="none" stroke="url(#heroH)" stroke-width="10" stroke-linecap="round" stroke-dasharray="282.74 282.74" stroke-dashoffset="0" transform="rotate(-90 110 110)"/>
+        <circle cx="110" cy="110" r="90" fill="none" stroke="url(#heroC)" stroke-width="10" stroke-linecap="round" stroke-dasharray="282.74 282.74" stroke-dashoffset="282.74" transform="rotate(-90 110 110)"/>
+        <text x="110" y="104" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="600" font-size="30" fill="#eef1f4">21°</text>
+        <text x="110" y="128" text-anchor="middle" font-family="Sora, sans-serif" font-weight="600" font-size="9" letter-spacing="1" fill="#8d98a6">PREORDER</text>
+      </svg>
+    </div>
+    <div class="hero-copy">
+      <p class="eyebrow">Rezervišite svoj termostat</p>
+      <h1>Prvi Colhea termostati stižu uskoro.</h1>
+      <p>Prijavite se i javljamo vam prvima kad krene prodaja, sa tačnim cenama, rokom isporuke i popustom za rane narudžbine.</p>
+      <a class="btn" href="#prijava">Prijavi interesovanje</a>
+      <p class="hint">Prijava ne obavezuje na kupovinu.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <p class="eyebrow">Kako radi</p>
+      <h2>Toplo kad treba, sa telefona</h2>
+      <p>Colhea se povezuje na kućni WiFi i radi preko aplikacije, pa grejanje i hlađenje podešavate odakle god da ste.</p>
+    </div>
+    <div class="grid3">
+      <div class="card">
+        <p class="num">01</p>
+        <h3>Povežite</h3>
+        <p>Termostat se za par minuta poveže na kućni WiFi i aplikaciju na telefonu.</p>
+      </div>
+      <div class="card">
+        <p class="num">02</p>
+        <h3>Podesite</h3>
+        <p>Temperatura i nedeljni raspored po vašoj meri, za svaku prostoriju posebno.</p>
+      </div>
+      <div class="card">
+        <p class="num">03</p>
+        <h3>Upravljajte</h3>
+        <p>Uključite grejanje pre nego što stignete kući i pratite temperaturu kad niste tu.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <p class="eyebrow">Modeli</p>
+      <h2>Za svaku instalaciju</h2>
+      <p>Tačne specifikacije i cene objavljujemo čim krene prva isporuka.</p>
+    </div>
+    <div class="grid3">
+      <div class="card">
+        <h3>Colhea Bežični</h3>
+        <p>Na baterije, za postojeće stanove i kuće. Zamena starog termostata bez probijanja zida, za kotao i podno grejanje.</p>
+        <p class="price">Cena: uskoro</p>
+      </div>
+      <div class="card">
+        <h3>Colhea Fan coil</h3>
+        <p>Na 230V, za fan coil uređaje u novogradnji. Grejanje i hlađenje, brzina ventilatora, jasan LED ekran.</p>
+        <p class="price">Cena: uskoro</p>
+      </div>
+      <div class="card">
+        <h3>Colhea Premium</h3>
+        <p>Na 230V, sa ekranom na dodir u boji. Za one koji žele da termostat na zidu izgleda kao deo enterijera.</p>
+        <p class="price">Cena: uskoro</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="prijava">
+    <div class="section-head">
+      <p class="eyebrow">Prijava</p>
+      <h2>Javite se prvi</h2>
+    </div>
+    <div class="signup">
+      <p>Ostavite ime i mejl. Kad krene preorder, šaljemo vam cene, rok isporuke i kod za popust.</p>
+      <!-- GOOGLE_FORMA: zameni href linkom Google forme -->
+      <a class="btn" href="GOOGLE_FORMA" target="_blank" rel="noopener">Prijavi se</a>
+      <p class="note">Pitanja: <a href="mailto:office@colhea.com">office@colhea.com</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Colhea</span>
+    <a class="domain" href="/">colhea.com</a>
+  </footer>
+</div>
+</body>
+</html>
