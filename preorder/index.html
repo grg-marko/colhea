@@ -12,7 +12,7 @@
 <style>
   /* Preorder page: hidden until suppliers are confirmed (noindex, not linked
      from the home page). Same dark system as the home page. Prices stay
-     "uskoro" until the first order is placed; sign-ups go to a Google Form. */
+     "uskoro" until the first order is placed; sign-ups are emailed to office@colhea.com via FormSubmit. */
   :root{
     --bg:#0a0d12;
     --bg-elev:#11161d;
@@ -108,6 +108,13 @@
     padding:clamp(24px,4vw,36px);max-width:560px;
   }
   .signup p{font-size:14.5px;line-height:1.6;color:var(--fg-dim);margin:0 0 20px;}
+  .signup label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--fg-dim);margin-bottom:14px;}
+  .signup input,.signup select{
+    background:var(--bg);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;color:var(--fg);font-family:'Sora',sans-serif;font-size:14px;
+  }
+  .signup .hp{display:none;}
+  .signup .btn{margin-top:6px;}
   .signup .note{font-size:12.5px;color:var(--fg-faint);margin:16px 0 0;}
 
   footer{
@@ -207,12 +214,27 @@
       <p class="eyebrow">Prijava</p>
       <h2>Javite se prvi</h2>
     </div>
-    <div class="signup">
-      <p>Ostavite ime i mejl. Kad krene preorder, šaljemo vam cene, rok isporuke i kod za popust.</p>
-      <!-- GOOGLE_FORMA: zameni href linkom Google forme -->
-      <a class="btn" href="GOOGLE_FORMA" target="_blank" rel="noopener">Prijavi se</a>
-      <p class="note">Pitanja: <a href="mailto:office@colhea.com">office@colhea.com</a></p>
-    </div>
+    <form class="signup" action="https://formsubmit.co/office@colhea.com" method="POST">
+      <p>Ostavite podatke. Kad krene preorder, šaljemo vam cene, rok isporuke i kod za popust.</p>
+      <input type="hidden" name="_subject" value="Colhea preorder: nova prijava">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://colhea.com/preorder/hvala.html">
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+      <label>Ime i prezime<input type="text" name="Ime" required></label>
+      <label>Email<input type="email" name="email" required></label>
+      <label>Grad<input type="text" name="Grad"></label>
+      <label>Koji model vas zanima
+        <select name="Model">
+          <option>Bežični</option>
+          <option>Fan coil</option>
+          <option>Premium</option>
+          <option selected>Ne znam još</option>
+        </select>
+      </label>
+      <label>Koliko termostata<input type="number" name="Komada" min="1" value="1"></label>
+      <button class="btn" type="submit">Prijavi se</button>
+      <p class="note">Podatke koristimo samo da vam javimo kad krene preorder. Pitanja: <a href="mailto:office@colhea.com">office@colhea.com</a></p>
+    </form>
   </section>
 
   <footer>
